@@ -20,9 +20,7 @@
                   with:
                     repository: 'wezterm/wezterm'
                     tag: 'nightly'
-                    fileName: |
-                      'WezTerm-windows-nightly.zip'
-                      'WezTerm-macos-nightly.zip'
+                    fileName: 'WezTerm-windows-nightly.zip*'
                     out-file-path: 'release'
 
                 - name: Get Current Time
