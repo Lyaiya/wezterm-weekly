@@ -25,10 +25,10 @@
                   uses: josStorer/get-current-time@v2
                   id: current_time
                   with:
-                    format: YYYYMMDD
+                    format: 'YYYYMMDD'
 
                 - name: Release
                   uses: softprops/action-gh-release@v2
                   with:
-                    files: ${{ steps.download.outputs.downloaded_files }}
+                    files: 'release/*'
                     tag_name: ${{ steps.current_time.outputs.formattedTime }}
