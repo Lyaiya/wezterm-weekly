@@ -1,0 +1,31 @@
+---
+    name: ci
+
+    on: 
+      workflow_dispatch
+
+    jobs:
+        ci:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Download WezTerm nightly
+                  id: download
+                  uses: robinraju/release-downloader@v1
+                  with:
+                    repository: 'wezterm/wezterm'
+                    tag: 'nightly'
+                    fileName: 'WezTerm-windows-nightly.zip'
+                    out-file-path: 'release'
+                    token: ${{ secrets.GITHUB_TOKEN  }}
+
+                - name: Get Current Time
+                  uses: josStorer/get-current-time@v2
+                  id: current_time
+                  with:
+                    format: 'YYYYMMDD'
+
+                - name: Release
+                  uses: softprops/action-gh-release@v2
+                  with:
+                    files: ${{ steps.download.outputs.downloaded_files }}
+                    tag_name: ${{ steps.current_time.outputs.time }}
