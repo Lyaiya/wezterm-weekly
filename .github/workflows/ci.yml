@@ -8,6 +8,9 @@
         ci:
             runs-on: ubuntu-latest
             steps:
+                - name: Checkout
+                  uses: actions/checkout@v4
+
                 - name: Download WezTerm nightly
                   id: download
                   uses: robinraju/release-downloader@v1
