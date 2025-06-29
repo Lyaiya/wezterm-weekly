@@ -1,25 +1,29 @@
 ---
     name: ci
 
-    on: 
-      workflow_dispatch
+    on:
+      schedule:
+        - cron: '0 8 * * 0'
+      workflow_dispatch:
 
     jobs:
         ci:
             runs-on: ubuntu-latest
+
             steps:
                 - name: Checkout
                   uses: actions/checkout@v4
 
-                - name: Download WezTerm nightly
-                  id: download
+                - name: Download Release
+                  id: download_release
                   uses: robinraju/release-downloader@v1
                   with:
                     repository: 'wezterm/wezterm'
                     tag: 'nightly'
-                    fileName: 'WezTerm-windows-nightly.zip'
+                    fileName: |
+                      'WezTerm-windows-nightly.zip'
+                      'WezTerm-macos-nightly.zip'
                     out-file-path: 'release'
-                    token: ${{ secrets.GITHUB_TOKEN  }}
 
                 - name: Get Current Time
                   uses: josStorer/get-current-time@v2
