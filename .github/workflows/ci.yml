@@ -23,6 +23,9 @@
                     fileName: 'WezTerm-windows-nightly.zip*'
                     out-file-path: 'release'
 
+                - name: Verify Checksum
+                  run: cd release && sha256sum -c WezTerm-windows-nightly.zip.sha256
+
                 - name: Get Version
                   id: get_version
                   run: |
@@ -31,6 +34,8 @@
                     for f in release/WezTerm-windows-nightly.zip*; do
                       mv "$f" "${f/nightly/$VERSION}"
                     done
+                    SHA=release/WezTerm-windows-$VERSION.zip.sha256
+                    [ -f "$SHA" ] && sed -i "s/WezTerm-windows-nightly.zip/WezTerm-windows-$VERSION.zip/" "$SHA"
 
                 - name: Release
                   uses: softprops/action-gh-release@v3
