@@ -12,7 +12,7 @@
 
             steps:
                 - name: Checkout
-                  uses: actions/checkout@v4
+                  uses: actions/checkout@v7
 
                 - name: Download Release
                   id: download_release
@@ -23,14 +23,14 @@
                     fileName: 'WezTerm-windows-nightly.zip*'
                     out-file-path: 'release'
 
-                - name: Get Current Time
-                  uses: josStorer/get-current-time@v2
-                  id: current_time
-                  with:
-                    format: 'YYYYMMDD'
+                - name: Get Version
+                  id: get_version
+                  run: |
+                    VERSION=$(unzip -Z1 release/WezTerm-windows-nightly.zip | grep -oE '[0-9]{8}-[0-9]{6}-[0-9a-f]{8,}' | head -n1)
+                    echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
                 - name: Release
-                  uses: softprops/action-gh-release@v2
+                  uses: softprops/action-gh-release@v3
                   with:
                     files: 'release/*'
-                    tag_name: ${{ steps.current_time.outputs.formattedTime }}
+                    tag_name: ${{ steps.get_version.outputs.version }}
