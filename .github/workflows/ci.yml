@@ -28,6 +28,9 @@
                   run: |
                     VERSION=$(unzip -Z1 release/WezTerm-windows-nightly.zip | grep -oE '[0-9]{8}-[0-9]{6}-[0-9a-f]{8,}' | head -n1)
                     echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                    for f in release/WezTerm-windows-nightly.zip*; do
+                      mv "$f" "${f/nightly/$VERSION}"
+                    done
 
                 - name: Release
                   uses: softprops/action-gh-release@v3
